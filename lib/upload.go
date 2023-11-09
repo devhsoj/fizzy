@@ -7,13 +7,21 @@ import (
 
 type Upload struct {
 	Id           uint64
-	Name         string
+	Filename     string
 	Size         uint64
 	DateUploaded time.Time
 }
 
 func (upload *Upload) Serialize() []byte {
-	data := []byte("\r" + upload.Name)
+	/*
+		serializaton format:
+		\r{Filename}{Id}{Size}{DateUploaded}
+
+		example entry:
+		\rtest.txtppppppppiiiiiiiiyyyyyyyy
+	*/
+
+	data := []byte("\r" + upload.Filename)
 
 	leBytes := make([]byte, 8)
 
@@ -34,17 +42,26 @@ func DeserializeUploadEntry(data []byte) Upload {
 
 	entryLength := len(data)
 
-	if entryLength < 8+8+8+1 {
+	/*
+		filename 		string X>=1 b
+		id 		 		uint64 8    b
+		size 	 		uint64 8    b
+		dateUploaded	uint64 8    b
+		=
+		(X>=1)+8+8+8 = min length 25
+	*/
+
+	if entryLength < 25 {
 		return upload
 	}
 
 	dateUploadedLeBytes := data[entryLength-8:]
 	sizeLeBytes := data[entryLength-16 : entryLength-8]
 	idLeBytes := data[entryLength-24 : entryLength-16]
-	nameBytes := data[:entryLength-24]
+	filenameBytes := data[:entryLength-24]
 
 	upload.Id = binary.LittleEndian.Uint64(idLeBytes)
-	upload.Name = string(nameBytes)
+	upload.Filename = string(filenameBytes)
 	upload.Size = binary.LittleEndian.Uint64(sizeLeBytes)
 	upload.DateUploaded = time.UnixMilli(int64(binary.LittleEndian.Uint64(dateUploadedLeBytes)))
 

@@ -29,6 +29,7 @@ func main() {
 	app := fiber.New(fiber.Config{
 		Views:                 viewEngine,
 		DisableStartupMessage: true,
+		BodyLimit:             10 * 1_024 * 1_024 * 1_024, // 10 Gib
 	})
 
 	// setup static dir
@@ -36,7 +37,7 @@ func main() {
 
 	// setup routes
 	app.Get("/", routes.IndexRoute)
-	app.Get("/upload", routes.UploadRoute)
+	app.Post("/upload", routes.UploadRoute)
 
 	// determine a listening address for the app
 	var listenAddress = os.Getenv("LISTEN_ADDRESS")
@@ -48,6 +49,5 @@ func main() {
 	log.Printf("starting @ %s", listenAddress)
 
 	// start app
-
 	app.Listen(listenAddress)
 }

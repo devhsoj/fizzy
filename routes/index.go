@@ -1,7 +1,19 @@
 package routes
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/devhsoj/fizzy/index"
+	"github.com/gofiber/fiber/v2"
+)
 
 func IndexRoute(c *fiber.Ctx) error {
-	return c.Render("index", fiber.Map{})
+	uploads, err := index.ParseIndexEntries()
+
+	if err != nil {
+		return c.SendStatus(500)
+	}
+
+	return c.Render("index", fiber.Map{
+		"uploads":     uploads,
+		"uploadCount": len(uploads),
+	})
 }

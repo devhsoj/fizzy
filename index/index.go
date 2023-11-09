@@ -9,8 +9,10 @@ import (
 )
 
 /*
-This indexing implementation only exists because I didn't want to deal with setting up cgo/mingw/gcc/go-sqlite3. lol.
-It's pretty fast, probably not sqlite fast, but it gets the job done.
+this indexing implementation only exists because i didn't want to deal with setting up cgo/mingw/gcc/go-sqlite3 on windows lol.
+i'm on windows, yes i know, don't make fun of me...
+i just play too many video games to not have my personal pc using windows.
+anyways, this implementation is pretty fast, probably not sqlite fast, but it gets the job done while keeping dependencies super light.
 */
 
 const INDEX_FILENAME = "fizzy.idx"
