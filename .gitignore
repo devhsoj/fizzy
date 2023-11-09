@@ -1,5 +1,7 @@
+# .env files
+.env*
 # executables
-fizzy.exe
 fizzy
+fizzy.exe
 # upload index
 fizzy.idx

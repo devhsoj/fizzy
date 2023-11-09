@@ -2,13 +2,19 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/devhsoj/fizzy/index"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/handlebars/v2"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	if err := godotenv.Load(); err != nil {
+		log.Print("Failed to load variables from .env!")
+	}
+
 	if err := index.SetupIndexFile(); err != nil {
 		panic(err)
 	}
@@ -30,7 +36,13 @@ func main() {
 		return c.SendStatus(200)
 	})
 
-	log.Println("starting @ http://localhost:3000")
+	var listenAddress = os.Getenv("LISTEN_ADDRESS")
 
-	app.Listen("localhost:3000")
+	if len(listenAddress) == 0 {
+		listenAddress = "localhost:3000"
+	}
+
+	log.Printf("starting @ %s", listenAddress)
+
+	app.Listen(listenAddress)
 }
