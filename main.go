@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/devhsoj/fizzy/index"
 	"github.com/devhsoj/fizzy/routes"
@@ -24,6 +26,28 @@ func main() {
 
 	// setup views
 	viewEngine := handlebars.New("./views/", ".hbs")
+
+	viewEngine.AddFunc("formatSize", func(size uint64) string {
+		// modified from clever solution @ https://yourbasic.org/golang/formatting-byte-size-to-human-readable-format/
+		const unit = 1000
+
+		if size < unit {
+			return fmt.Sprintf("%d b", size)
+		}
+
+		div, exp := int64(unit), 0
+
+		for n := size / unit; n >= unit; n /= unit {
+			div *= unit
+			exp++
+		}
+
+		return fmt.Sprintf("%.2f %cb", float64(size)/float64(div), "kmgtpe"[exp])
+	})
+
+	viewEngine.AddFunc("formatDate", func(date time.Time) string {
+		return date.Format(time.RFC822)
+	})
 
 	// setup app
 	app := fiber.New(fiber.Config{

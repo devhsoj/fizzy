@@ -7,8 +7,18 @@
                 text-align: center;
             }
 
+            h1, h3 {
+                margin-top: 2px;
+                margin-bottom: 2px;
+            }
+
             #break {
                 color:#efefef;
+            }
+
+            #upload-count {
+                font-family: monospace;
+                margin-bottom: 2px;
             }
 
             #files {
@@ -24,36 +34,50 @@
                 background-color: #efefef;
             }
 
-            #upload-count {
-                font-family: monospace;
+            .date-th {
+                width: 20%;
+            }
+
+            .size-th {
+                width: 20%;
+            }
+
+            .actions-th {
+                width: 20%;
             }
         </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
     </head>
     <body>
         <h1>fizzy</h1>
         <p>fizzy is a stupidly simple file hosting platform. emphasis on stupidly!</p>
         <hr id="break" />
+        <h3>Upload</h3>
         <form action="/upload" method="POST" enctype="multipart/form-data">
             <input type="file" name="file" multiple />
             <button type="submit">Upload</button>
         </form>
+        <h3>Files</h3>
         <div id="upload-count"><b>{{uploadCount}}</b> files have been uploaded!</div>
         <table id="files">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Size</th>
-                    <th>Date Uploaded</th>
-                    <th>Download</th>
+                    <th class="date-th">Date Uploaded</th>
+                    <th class="name-th">Name</th>
+                    <th class="size-th">Size</th>
+                    <th class="actions-th">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each uploads}}
                     <tr>
+                        <td>{{formatDate this.DateUploaded}}</td>
                         <td>{{this.Filename}}</td>
-                        <td>{{this.Size}} bytes</td>
-                        <td>{{this.DateUploaded}}</td>
-                        <td><a href="/static/{{this.Id}}" download="{{this.Filename}}">Download</a></td>
+                        <td>{{formatSize this.Size}}</td>
+                        <td>
+                            <a href="/static/{{this.Id}}">View</a>
+                            <a href="/static/{{this.Id}}" download="{{this.Filename}}">Download</a>
+                        </td>
                     </tr>
                 {{/each}}
             </tbody>
