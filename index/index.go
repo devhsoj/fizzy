@@ -22,7 +22,7 @@ var IndexFile *os.File
 func SetupIndexFile() error {
 	var err error
 
-	IndexFile, err = os.OpenFile(INDEX_FILENAME, os.O_APPEND|os.O_RDONLY, 0700)
+	IndexFile, err = os.OpenFile(INDEX_FILENAME, os.O_APPEND|os.O_RDONLY|os.O_WRONLY, 0700)
 
 	if err != nil {
 		if os.IsNotExist(err) {
