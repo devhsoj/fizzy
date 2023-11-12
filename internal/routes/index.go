@@ -1,14 +1,17 @@
 package routes
 
 import (
-	"github.com/devhsoj/fizzy/index"
+	"log"
+
+	"github.com/devhsoj/fizzy/internal/lib"
 	"github.com/gofiber/fiber/v2"
 )
 
-func IndexRoute(c *fiber.Ctx) error {
-	uploads, err := index.ParseIndexEntries()
+func IndexPage(c *fiber.Ctx) error {
+	uploads, err := lib.ParseIndexEntries()
 
 	if err != nil {
+		log.Println(err)
 		return c.SendStatus(500)
 	}
 

@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/devhsoj/fizzy/index"
-	"github.com/devhsoj/fizzy/routes"
+	"github.com/devhsoj/fizzy/internal/index"
+	"github.com/devhsoj/fizzy/internal/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/handlebars/v2"
 	"github.com/joho/godotenv"
@@ -60,8 +60,8 @@ func main() {
 	app.Static("/static", "./static/")
 
 	// setup routes
-	app.Get("/", routes.IndexRoute)
-	app.Post("/upload", routes.UploadRoute)
+	app.Get("/", routes.IndexPage)
+	app.Post("/upload", routes.Upload)
 
 	// determine a listening address for the app
 	var listenAddress = os.Getenv("LISTEN_ADDRESS")
