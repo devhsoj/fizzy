@@ -8,7 +8,7 @@ import (
 )
 
 func IndexPage(c *fiber.Ctx) error {
-	uploads, err := lib.ParseIndexEntries()
+	uploads, err := lib.ParseIndexUploadEntries()
 
 	if err != nil {
 		log.Println(err)
