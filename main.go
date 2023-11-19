@@ -25,7 +25,7 @@ func main() {
 	}
 
 	// setup views
-	viewEngine := handlebars.New("./views/", ".hbs")
+	viewEngine := handlebars.New("./web/views/", ".hbs")
 
 	viewEngine.AddFunc("formatSize", func(size uint64) string {
 		// modified from clever solution @ https://yourbasic.org/golang/formatting-byte-size-to-human-readable-format/
@@ -53,11 +53,11 @@ func main() {
 	app := fiber.New(fiber.Config{
 		Views:                 viewEngine,
 		DisableStartupMessage: true,
-		BodyLimit:             10 * 1_024 * 1_024 * 1_024, // 10 Gib
+		BodyLimit:             10 * 1_024 * 1_024 * 1_024, // 10 GiB
 	})
 
 	// setup static dir
-	app.Static("/static", "./static/")
+	app.Static("/static", "./web/static/")
 
 	// setup routes
 	app.Get("/", routes.IndexPage)

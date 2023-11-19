@@ -1,2 +1,4 @@
-static/*
-!static/.gitignore
+.idea/
+.vscode/
+./web/static/*
+!web/static/.gitignore

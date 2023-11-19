@@ -63,7 +63,7 @@ func StoreUploadsFromRequest(c *fiber.Ctx) error {
 			DateUploaded: now,
 		})
 
-		if err := c.SaveFile(file, fmt.Sprintf("./static/%d", id)); err != nil {
+		if err := c.SaveFile(file, fmt.Sprintf("./web/static/%d", id)); err != nil {
 			return err
 		}
 	}
